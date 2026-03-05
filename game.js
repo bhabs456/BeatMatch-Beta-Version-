@@ -464,11 +464,11 @@ function showFeedback(type) {
 
 const soundMap = {
   a: new Audio("../assets/sounds/Kick.mp3"),
-  s: new Audio("../assets/sounds/Snare 1.mp3"),
+  s: new Audio("../assets/sounds/Snare1.mp3"),
   d: new Audio("../assets/sounds/Clap.mp3"),
-  f: new Audio("../assets/sounds/Hi Hat.mp3"),
-  g: new Audio("../assets/sounds/Snare 2.mp3"),
-  h: new Audio("../assets/sounds/Snare 3.mp3"),
+  f: new Audio("../assets/sounds/Hi_Hat.mp3"),
+  g: new Audio("../assets/sounds/Snare2.mp3"),
+  h: new Audio("../assets/sounds/Snare3.mp3"),
 };
 
 function playBeatLoop() {
