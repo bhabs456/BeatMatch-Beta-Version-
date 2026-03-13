@@ -241,6 +241,22 @@ body {
   overflow: hidden;
   animation: cardIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+
+.current-user{
+  border:1px solid #39ff6e;
+  background:rgba(57,255,110,0.08);
+  box-shadow:0 0 12px rgba(57,255,110,0.5);
+}
+
+.lb-divider{
+  text-align:center;
+  color:#888;
+  padding:6px 0;
+  letter-spacing:4px;
+}
+
+
+
 @keyframes cardIn {
   from {
     opacity: 0;
@@ -251,6 +267,26 @@ body {
     transform: translateY(0) scale(1);
   }
 }
+
+@keyframes beatPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(255, 200, 0, 0.5);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 35px rgba(255, 200, 0, 0.9);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(255, 200, 0, 0.5);
+  }
+}
+
+.rank-1 {
+  animation: beatPulse 1.2s infinite ease-in-out;
+}
+
 .leaderboard-card::before {
   content: "";
   position: absolute;

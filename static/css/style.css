@@ -35,6 +35,7 @@
 }
 html {
   scroll-behavior: smooth;
+  scrollbar-width: none;
 }
 body {
   font-family: "Rajdhani", sans-serif;
@@ -229,8 +230,19 @@ body {
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   flex-shrink: 0;
+}
+
+.navbar-side-logo{
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.navbar-side-logo img{
+  height: 34px;
+  width: auto;
+  display: block;
 }
 
 /* ── Navbar Login Button ── */
@@ -260,6 +272,8 @@ body {
 .navbar-login-btn:active {
   transform: scale(0.96);
 }
+
+
 
 /* ── Profile Avatar ── */
 .profile-wrap {

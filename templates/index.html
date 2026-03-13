@@ -12,7 +12,10 @@
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
   </head>
   <body>
     <!-- Animated Background -->
@@ -24,13 +27,20 @@
     <!-- ═══════════ NAVBAR ═══════════ -->
     <nav class="navbar">
       <!-- Left: game name -->
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="{{ url_for('home') }}">
         <span class="navbar-brand-icon">🎵</span>
         <span class="navbar-brand-text">BeatMatch</span>
       </a>
 
       <!-- Right: profile / login -->
       <div class="navbar-right">
+        <!-- Logo beside profile -->
+        <div class="navbar-side-logo">
+          <img
+            src="{{ url_for('static', filename='images/happiness_logo.jpg') }}"
+            alt="BeatMatch Logo"
+          />
+        </div>
         <!-- Profile wrap (shown when logged in) -->
         <div class="profile-wrap" id="profileWrap">
           <button
@@ -43,10 +53,13 @@
           <div class="profile-dropdown" id="profileDropdown">
             <div class="dd-header">
               <div class="dd-avatar-lg" id="ddAvatarLg">🎧</div>
+
               <div class="dd-user-info">
-                <div class="dd-username" id="ddUsername">BeatMaster</div>
-                <div class="dd-email" id="ddEmail">player@beatmatch.io</div>
-                <div class="dd-rank-badge">⚡ RANK: PRO</div>
+                <div class="dd-username" id="ddUsername">Username</div>
+
+                <div class="dd-email" id="ddEmail">email@example.com</div>
+
+                <div class="dd-rank-badge" id="ddRank"></div>
               </div>
             </div>
             <div class="dd-stats">
@@ -64,10 +77,10 @@
               </div>
             </div>
             <div class="dd-menu">
-              <button class="dd-item" id="ddProfile">
+              <a class="dd-item" href="{{ url_for('profile_page') }}">
                 <span class="dd-item-icon">👤</span>My Profile
-              </button>
-              <a class="dd-item" href="leaderboard.html"
+              </a>
+              <a class="dd-item" href="{{ url_for('leaderboard') }}"
                 ><span class="dd-item-icon">🏅</span>Leaderboard</a
               >
               <button class="dd-item" id="ddSettings">
@@ -148,7 +161,7 @@
               class="auth-input"
               id="signupUser"
               type="text"
-              placeholder="Choose a username"
+              placeholder="Username or Email"
               autocomplete="username"
             />
             <input
@@ -224,7 +237,7 @@
             <div class="beat-dot"></div>
           </div>
           <div class="combo-badge" id="comboBadge">
-            🔥 COMBO: <span id="comboVal">0</span>x
+            🔥 STREAK: <span id="comboVal">0</span>x
           </div>
         </div>
 
@@ -293,13 +306,15 @@
           <button class="action-btn outline" id="resetBtn">
             🔄 &nbsp;Reset
           </button>
-          <a class="action-btn leaderboard" href="leaderboard.html"
+          <a class="action-btn leaderboard" href="{{ url_for('leaderboard') }}"
             >🏅 &nbsp;Leaderboard</a
           >
         </div>
       </div>
     </div>
 
-    <script src="game.js"></script>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+    {% include "components/auth_modal.html" %}
   </body>
 </html>

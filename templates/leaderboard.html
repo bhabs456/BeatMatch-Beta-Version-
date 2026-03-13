@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#0a0015" />
+    <title>BeatMatch – Leaderboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style1.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <div class="bg-canvas"></div>
+    <div class="beat-pulse"></div>
+    <div class="particles" id="particles"></div>
+    <div class="equalizer" id="equalizer"></div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <!-- Left: game name -->
+      <a class="navbar-brand" href="{{ url_for('home') }}">
+        <span class="navbar-brand-icon">🎵</span>
+        <span class="navbar-brand-text">BeatMatch</span>
+      </a>
+
+      <!-- Right: profile / login -->
+      <div class="navbar-right">
+        <!-- Logo beside profile -->
+        <div class="navbar-side-logo">
+          <img
+            src="{{ url_for('static', filename='images/happiness_logo.jpg') }}"
+            alt="BeatMatch Logo"
+          />
+        </div>
+        <!-- Profile wrap (shown when logged in) -->
+        <div class="profile-wrap" id="profileWrap">
+          <button
+            class="profile-avatar-btn"
+            id="profileAvatarBtn"
+            title="My Profile"
+          >
+            🎧<span class="online-dot"></span>
+          </button>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="dd-header">
+              <div class="dd-avatar-lg" id="ddAvatarLg">🎧</div>
+
+              <div class="dd-user-info">
+                <div class="dd-username" id="ddUsername">Username</div>
+
+                <div class="dd-email" id="ddEmail">email@example.com</div>
+
+                <div class="dd-rank-badge" id="ddRank"></div>
+              </div>
+            </div>
+            <div class="dd-stats">
+              <div class="dd-stat">
+                <div class="dd-stat-val" id="ddStatScore">0</div>
+                <div class="dd-stat-lbl">Score</div>
+              </div>
+              <div class="dd-stat">
+                <div class="dd-stat-val" id="ddStatLevel">1</div>
+                <div class="dd-stat-lbl">Level</div>
+              </div>
+              <div class="dd-stat">
+                <div class="dd-stat-val" id="ddStatCombo">0</div>
+                <div class="dd-stat-lbl">Combo</div>
+              </div>
+            </div>
+            <div class="dd-menu">
+              <a class="dd-item" href="{{ url_for('profile_page') }}">
+                <span class="dd-item-icon">👤</span>My Profile
+              </a>
+              <a class="dd-item" href="{{ url_for('leaderboard') }}"
+                ><span class="dd-item-icon">🏅</span>Leaderboard</a
+              >
+              <button class="dd-item" id="ddSettings">
+                <span class="dd-item-icon">⚙️</span>Settings
+              </button>
+              <button class="dd-item" id="ddAchievements">
+                <span class="dd-item-icon">🏆</span>Achievements
+              </button>
+              <div class="dd-divider"></div>
+              <button class="dd-item logout" id="ddLogout">
+                <span class="dd-item-icon">🚪</span>Logout
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Login button (shown when logged out) -->
+        <button class="navbar-login-btn" id="loginBtn">🎮 &nbsp;Login</button>
+      </div>
+    </nav>
+
+    <div class="page-wrapper">
+      <div class="leaderboard-card">
+        <div class="lb-header">
+          <div class="lb-title">🏅 Leaderboard</div>
+          <div class="lb-subtitle">Top Players · Global Rankings</div>
+        </div>
+
+        <div class="neon-divider"></div>
+
+        <!-- Podium Top 3 -->
+        <div class="podium-section">
+          <div class="podium-card rank-2">
+            <span class="podium-medal">🥈</span>
+            <div class="podium-rank">#2</div>
+            <div class="podium-name" id="p2_name"></div>
+            <div class="podium-score" id="p2_score"></div>
+            <div class="podium-level" id="p2_level"></div>
+          </div>
+
+          <div class="podium-card rank-1">
+            <span class="podium-medal">👑</span>
+            <div class="podium-rank">#1</div>
+            <div class="podium-name" id="p1_name"></div>
+            <div class="podium-score" id="p1_score"></div>
+            <div class="podium-level" id="p1_level"></div>
+          </div>
+
+          <div class="podium-card rank-3">
+            <span class="podium-medal">🥉</span>
+            <div class="podium-rank">#3</div>
+            <div class="podium-name" id="p3_name"></div>
+            <div class="podium-score" id="p3_score"></div>
+            <div class="podium-level" id="p3_level"></div>
+          </div>
+        </div>
+
+        <div class="neon-divider"></div>
+
+        <!-- Full Table -->
+        <div class="table-section">
+          <div class="table-label">📋 All Rankings</div>
+          <table class="lb-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Player</th>
+                <th>Level</th>
+                <th>High Score</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyRows"></tbody>
+          </table>
+        </div>
+
+        <div class="lb-cta">
+          <a class="cta-btn" href="{{ url_for('game') }}">▶ &nbsp;Play Now</a>
+        </div>
+      </div>
+    </div>
+
+    {% include "components/auth_modal.html" %}
+
+    <audio id="bgmusic" loop>
+      <source src="/static/sounds/BgMusic.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script
+      src="{{ url_for('static', filename='js/stats.js') }}"
+      defer
+    ></script>
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bgmusic.js') }}"></script>
+  </body>
+</html>

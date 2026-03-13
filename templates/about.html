@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About BeatMatch</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style2.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <!-- Left: game name -->
+      <a class="navbar-brand" href="{{ url_for('home') }}">
+        <span class="navbar-brand-icon">🎵</span>
+        <span class="navbar-brand-text">BeatMatch</span>
+      </a>
+
+      <!-- Right: profile / login -->
+      <div class="navbar-right">
+        <!-- Logo beside profile -->
+        <div class="navbar-side-logo">
+          <img
+            src="{{ url_for('static', filename='images/happiness_logo.jpg') }}"
+            alt="BeatMatch Logo"
+          />
+        </div>
+        <!-- Profile wrap (shown when logged in) -->
+        <div class="profile-wrap" id="profileWrap">
+          <button
+            class="profile-avatar-btn"
+            id="profileAvatarBtn"
+            title="My Profile"
+          >
+            🎧<span class="online-dot"></span>
+          </button>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="dd-header">
+              <div class="dd-avatar-lg" id="ddAvatarLg">🎧</div>
+
+              <div class="dd-user-info">
+                <div class="dd-username" id="ddUsername">Username</div>
+
+                <div class="dd-email" id="ddEmail">email@example.com</div>
+
+                <div class="dd-rank-badge" id="ddRank"></div>
+              </div>
+            </div>
+            <div class="dd-stats">
+              <div class="dd-stat">
+                <div class="dd-stat-val" id="ddStatScore">0</div>
+                <div class="dd-stat-lbl">Score</div>
+              </div>
+              <div class="dd-stat">
+                <div class="dd-stat-val" id="ddStatLevel">1</div>
+                <div class="dd-stat-lbl">Level</div>
+              </div>
+              <div class="dd-stat">
+                <div class="dd-stat-val" id="ddStatCombo">0</div>
+                <div class="dd-stat-lbl">Combo</div>
+              </div>
+            </div>
+            <div class="dd-menu">
+              <a class="dd-item" href="{{ url_for('profile_page') }}">
+                <span class="dd-item-icon">👤</span>My Profile
+              </a>
+              <a class="dd-item" href="{{ url_for('leaderboard') }}"
+                ><span class="dd-item-icon">🏅</span>Leaderboard</a
+              >
+              <button class="dd-item" id="ddSettings">
+                <span class="dd-item-icon">⚙️</span>Settings
+              </button>
+              <button class="dd-item" id="ddAchievements">
+                <span class="dd-item-icon">🏆</span>Achievements
+              </button>
+              <div class="dd-divider"></div>
+              <button class="dd-item logout" id="ddLogout">
+                <span class="dd-item-icon">🚪</span>Logout
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Login button (shown when logged out) -->
+        <button class="navbar-login-btn" id="loginBtn">🎮 &nbsp;Login</button>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-glow"></div>
+      <div class="hero-inner">
+        <div class="beat-icon" aria-hidden="true">
+          <div class="beat-bar"></div>
+          <div class="beat-bar"></div>
+          <div class="beat-bar"></div>
+          <div class="beat-bar"></div>
+          <div class="beat-bar"></div>
+          <div class="beat-bar"></div>
+          <div class="beat-bar"></div>
+          <div class="beat-bar"></div>
+          <div class="beat-bar"></div>
+          <div class="beat-bar"></div>
+        </div>
+        <p class="hero-label">Rhythm Memory Game</p>
+        <h1 class="hero-title">
+          <span class="beat">BEAT</span><span class="match">MATCH</span>
+        </h1>
+        <p class="hero-desc">
+          An interactive rhythm-memory game designed to challenge your focus,
+          pattern recognition, and reaction speed. Watch the beats. Remember the
+          sequence. Dominate the leaderboard.
+        </p>
+      </div>
+    </section>
+
+    <div class="neon-divider"></div>
+
+    <!-- OVERVIEW -->
+    <section>
+      <div class="container">
+        <div class="overview-grid">
+          <div class="glass-card reveal">
+            <p class="section-tag">How It Works</p>
+            <h2 class="section-title">Game Overview</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 18px">
+              In BeatMatch, the system generates a sequence of musical beats you
+              must carefully watch and listen to. Once the sequence ends,
+              replicate the pattern by selecting the corresponding buttons in
+              exact order.
+            </p>
+            <p style="color: var(--text-secondary); margin-bottom: 18px">
+              Each successful round increases the level and adds more beats —
+              gradually raising the challenge and testing your memory, timing,
+              and concentration.
+            </p>
+            <p style="color: var(--text-primary)">
+              The goal: achieve the highest possible score while pushing through
+              increasingly difficult levels.
+            </p>
+          </div>
+          <div class="gameplay-preview reveal reveal-delay-2">
+            <div class="preview-header">
+              <span class="preview-level">LEVEL 07</span>
+              <span class="preview-score" id="previewScore">12,840</span>
+            </div>
+            <div class="preview-progress">
+              <div class="preview-progress-fill"></div>
+            </div>
+            <div class="beat-grid" id="beatGrid">
+              <div class="beat-btn col-a">🎵</div>
+              <div class="beat-btn col-s">🥁</div>
+              <div class="beat-btn col-d">🎹</div>
+
+              <div class="beat-btn col-f">🎸</div>
+              <div class="beat-btn col-g">🥁</div>
+              <div class="beat-btn col-h">🎹</div>
+            </div>
+
+            <div class="preview-sequence">
+              <div class="seq-dot done"></div>
+              <div class="seq-dot done"></div>
+              <div class="seq-dot next"></div>
+              <div class="seq-dot"></div>
+              <div class="seq-dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="neon-divider"></div>
+
+    <!-- FEATURES -->
+    <section>
+      <div class="container">
+        <p class="section-tag reveal">What's Inside</p>
+        <h2 class="section-title reveal">Key Features</h2>
+        <div class="features-grid">
+          <div class="feature-card reveal reveal-delay-1">
+            <span class="feature-icon">🎵</span>
+            <div class="feature-title">Rhythm-Based Gameplay</div>
+            <div class="feature-desc">
+              Match musical beat patterns with precision. Every tone, every
+              pulse — your focus is the instrument.
+            </div>
+          </div>
+          <div class="feature-card reveal reveal-delay-2">
+            <span class="feature-icon">🧠</span>
+            <div class="feature-title">Memory Challenge</div>
+            <div class="feature-desc">
+              Increasing sequence length relentlessly tests your recall. Train
+              your mind to hear, hold, and replay.
+            </div>
+          </div>
+          <div class="feature-card reveal reveal-delay-3">
+            <span class="feature-icon">📈</span>
+            <div class="feature-title">Progressive Levels</div>
+            <div class="feature-desc">
+              Difficulty scales as you advance — more beats, faster tempos,
+              tighter margins. There's always a next level.
+            </div>
+          </div>
+          <div class="feature-card reveal reveal-delay-1">
+            <span class="feature-icon">🔥</span>
+            <div class="feature-title">Streak System</div>
+            <div class="feature-desc">
+              Maintain accuracy streaks to unlock score multipliers. The longer
+              your streak, the bigger your lead.
+            </div>
+          </div>
+          <div class="feature-card reveal reveal-delay-2">
+            <span class="feature-icon">🏆</span>
+            <div class="feature-title">Leaderboard Competition</div>
+            <div class="feature-desc">
+              Every game is a race to the top. Your final score enters the
+              global leaderboard — claim your rank.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="neon-divider"></div>
+
+    <!-- RULES -->
+    <section>
+      <div class="container">
+        <div class="glass-card">
+          <p class="section-tag reveal">Learn the Rules</p>
+          <h2 class="section-title reveal">How to Play</h2>
+          <ol class="rules-list">
+            <li class="reveal reveal-delay-1">
+              <span class="rule-num">01</span
+              ><span class="rule-text"
+                >Watch and listen to the beat sequence carefully as it
+                plays.</span
+              >
+            </li>
+            <li class="reveal reveal-delay-2">
+              <span class="rule-num">02</span
+              ><span class="rule-text"
+                >Repeat the sequence in the exact order shown by selecting the
+                matching buttons.</span
+              >
+            </li>
+            <li class="reveal reveal-delay-3">
+              <span class="rule-num">03</span
+              ><span class="rule-text"
+                >Each level increases the length of the sequence — stay sharp
+                and stay focused.</span
+              >
+            </li>
+            <li class="reveal reveal-delay-1">
+              <span class="rule-num">04</span
+              ><span class="rule-text"
+                >Earn points for every correct input. Build combos to multiply
+                your score.</span
+              >
+            </li>
+            <li class="reveal reveal-delay-2">
+              <span class="rule-num danger">05</span
+              ><span class="rule-text"
+                >You are allowed <strong>two incorrect attempts</strong> during
+                each round. Use them wisely.</span
+              >
+            </li>
+            <li class="reveal reveal-delay-3">
+              <span class="rule-num danger">06</span
+              ><span class="rule-text"
+                >After two wrong attempts, the game
+                <strong>automatically resets</strong> — your run is over.</span
+              >
+            </li>
+            <li class="reveal reveal-delay-1">
+              <span class="rule-num">07</span
+              ><span class="rule-text"
+                >Final scores are recorded and displayed on the global
+                leaderboard for all to see.</span
+              >
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <div class="neon-divider"></div>
+
+    <!-- LEADERBOARD -->
+    <section>
+      <div class="container" style="text-align: center">
+        <p class="section-tag reveal">Top Players</p>
+        <h2 class="section-title reveal" style="display: inline-block">
+          Leaderboard
+        </h2>
+        <p
+          style="
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+          "
+          class="reveal"
+        >
+          These are the rhythm masters. Can you dethrone them?
+        </p>
+        <div class="lb-wrap">
+          <div class="leaderboard-card reveal">
+            <div class="lb-header">
+              <span style="font-size: 20px">🏆</span>
+              <span class="lb-title">GLOBAL RANKINGS</span>
+              <span class="lb-live">LIVE</span>
+            </div>
+            <!-- REAL DATA WILL LOAD HERE -->
+            <div id="leaderboardRows"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="neon-divider"></div>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <div class="cta-card reveal">
+        <p class="cta-tagline">Ready to Begin?</p>
+        <h2 class="cta-heading">Think You Have the Rhythm?</h2>
+        <p class="cta-sub">
+          Test your skills, climb the leaderboard, and become the ultimate
+          BeatMatch champion.
+        </p>
+        <a href="{{ url_for('game') }}" class="btn-play"
+          >🎮 Start Playing Now</a
+        >
+      </div>
+    </section>
+
+    {% include "components/auth_modal.html" %}
+    
+    <audio id="bgmusic" loop>
+      <source src="/static/sounds/BgMusic.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script src="{{ url_for('static', filename='js/about.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bgmusic.js') }}"></script>
+  </body>
+</html>
