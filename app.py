@@ -23,23 +23,29 @@ from mysql.connector import pooling
 # DATABASE CONNECTION POOL
 # ==============================
 
-dbconfig = {
-    "host": os.getenv("MYSQLHOST", "localhost"),
-    "user": os.getenv("MYSQLUSER", "root"),
-    "password": os.getenv("MYSQLPASSWORD", "12345"),
-    "database": os.getenv("MYSQLDATABASE", "beatmatch"),
-    "port": int(os.getenv("MYSQLPORT", 3306))
-}
-
-# Create a connection pool with 5 connections
-connection_pool = pooling.MySQLConnectionPool(
-    pool_name="beatmatch_pool",
-    pool_size=5,
-    pool_reset_session=True,
-    **dbconfig
-)
+connection_pool = None
 
 def get_db_connection():
+    global connection_pool
+    if connection_pool is None:
+        try:
+            dbconfig = {
+                "host": os.getenv("MYSQLHOST", "localhost"),
+                "user": os.getenv("MYSQLUSER", "root"),
+                "password": os.getenv("MYSQLPASSWORD", "12345"),
+                "database": os.getenv("MYSQLDATABASE", "beatmatch"),
+                "port": int(os.getenv("MYSQLPORT", 3306))
+            }
+            # Aiven requires SSL, so we add ssl_ca or ssl_disabled=False
+            connection_pool = pooling.MySQLConnectionPool(
+                pool_name="beatmatch_pool",
+                pool_size=5,
+                pool_reset_session=True,
+                **dbconfig
+            )
+        except Exception as e:
+            print(f"Error initializing connection pool: {e}")
+            return None
     try:
         return connection_pool.get_connection()
     except Exception as e:
