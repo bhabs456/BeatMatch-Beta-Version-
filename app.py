@@ -24,28 +24,48 @@ app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
 import mysql.connector
 
+# def get_db_connection():
+#     connection = mysql.connector.connect(
+#         host=os.getenv("MYSQLHOST"),
+#         user=os.getenv("MYSQLUSER"),
+#         password=os.getenv("MYSQLPASSWORD"),
+#         database=os.getenv("MYSQLDATABASE"),
+#         port=int(os.getenv("MYSQLPORT"), 3306)
+#     )
+#     return connection
+
+# def get_cursor(dictionary=False):
+#     db = get_db_connection()
+#     cursor = db.cursor(dictionary=dictionary)
+#     return cursor, db
+
+
+# @app.route("/db-test")
+# def db_test():
+#     cursor, db = get_cursor(True)
+#     cursor.execute("SHOW TABLES;")
+#     tables = cursor.fetchall()
+#     return str(tables)
+
+app = Flask(__name__)
+
+# Database connection
 def get_db_connection():
     connection = mysql.connector.connect(
-        host=os.getenv("MYSQLHOST"),
-        user=os.getenv("MYSQLUSER"),
-        password=os.getenv("MYSQLPASSWORD"),
-        database=os.getenv("MYSQLDATABASE"),
-        port=int(os.getenv("MYSQLPORT"), 3306)
+        host=os.getenv("MYSQLHOST", "localhost"),
+        user=os.getenv("MYSQLUSER", "root"),
+        password=os.getenv("MYSQLPASSWORD", "YOUR_PASSWORD"),   # replace with your mysql root password
+        database=os.getenv("MYSQLDATABASE", "your_database"),   # replace with your database name
+        port=int(os.getenv("MYSQLPORT", 3306))
     )
     return connection
+
 
 def get_cursor(dictionary=False):
     db = get_db_connection()
     cursor = db.cursor(dictionary=dictionary)
     return cursor, db
 
-
-@app.route("/db-test")
-def db_test():
-    cursor, db = get_cursor(True)
-    cursor.execute("SHOW TABLES;")
-    tables = cursor.fetchall()
-    return str(tables)
 
 # ==============================
 # LOGIN REQUIRED DECORATOR
