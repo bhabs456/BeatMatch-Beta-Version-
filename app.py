@@ -54,8 +54,8 @@ def get_db_connection():
     connection = mysql.connector.connect(
         host=os.getenv("MYSQLHOST", "localhost"),
         user=os.getenv("MYSQLUSER", "root"),
-        password=os.getenv("MYSQLPASSWORD", "YOUR_PASSWORD"),   # replace with your mysql root password
-        database=os.getenv("MYSQLDATABASE", "your_database"),   # replace with your database name
+        password=os.getenv("MYSQLPASSWORD", ""),
+        database=os.getenv("MYSQLDATABASE", "beatmatch"),
         port=int(os.getenv("MYSQLPORT", 3306))
     )
     return connection
