@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify, url_for, session, redirect
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
-import mysql.connector
 from mysql.connector import pooling
 from functools import wraps
 from datetime import datetime
@@ -19,18 +18,21 @@ app.secret_key = "beatmatch_super_secret"
 import os
 import mysql.connector
 
-def get_cursor(dictionary=False):
-
-    db = mysql.connector.connect(
+def get_db_connection():
+    connection = mysql.connector.connect(
         host=os.getenv("MYSQLHOST"),
         user=os.getenv("MYSQLUSER"),
         password=os.getenv("MYSQLPASSWORD"),
-        database="beatmatch",   # important
-        port=int(os.getenv("MYSQLPORT", 3306))
+        database=os.getenv("MYSQLDATABASE"),
+        port=os.getenv("MYSQLPORT")
     )
+    return connection
 
+def get_cursor(dictionary=False):
+    db = get_db_connection()
     cursor = db.cursor(dictionary=dictionary)
     return cursor, db
+
 
 @app.route("/db-test")
 def db_test():
