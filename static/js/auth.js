@@ -88,9 +88,15 @@ async function loginUser() {
     if (loginBtn) loginBtn.style.display = "none";
     if (profileWrap) profileWrap.style.display = "block";
 
-    await loadProfile();
+    try {
+      await loadProfile();
+    } catch (e) {
+        console.log("Profile could not be loaded initially.");
+    }
 
     closeModal();
+    // Redirect user to the game upon successful login
+    window.location.href = "/game";
   } else {
     if (loginError) loginError.textContent = data.error || "Login failed";
   }
