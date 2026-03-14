@@ -20,7 +20,7 @@
   --pad-h: #ff6a00;
   --shadow-card:
     0 0 60px rgba(201, 60, 255, 0.15), 0 24px 48px rgba(0, 0, 0, 0.6);
-  --blur-val: blur(20px);
+  --blur-val: blur(8px);
   --progress-fill: linear-gradient(90deg, #c93cff, #00f5ff);
   --navbar-bg: rgba(10, 0, 21, 0.55);
 }

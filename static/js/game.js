@@ -284,7 +284,7 @@ const particlesEl = document.getElementById("particles");
 
 /* ── EQUALIZER ── */
 const eqEl = document.getElementById("equalizer");
-for (let i = 0; i < 80; i++) {
+for (let i = 0; i < 20; i++) {
   const b = document.createElement("div");
   b.className = "eq-bar";
   b.style.cssText = `height:${15 + Math.random() * 45}px;--spd:${0.3 + Math.random() * 0.7}s;animation-delay:${Math.random() * 0.8}s`;
@@ -356,7 +356,7 @@ function playGameSound(name) {
   if (!s) return;
 
   s.currentTime = 0;
-  s.play();
+  s.play().catch(e => console.log("Audio not ready:", e));
 }
 
 function playBeatLoop() {
@@ -439,8 +439,8 @@ function playSound(key) {
   const original = soundMap[key];
   if (!original) return;
 
-  const sound = original.cloneNode(); 
-  sound.play();
+  original.currentTime = 0; 
+  original.play().catch(e => console.log("Audio not ready:", e));
 }
 
 function highlightPad(key) {

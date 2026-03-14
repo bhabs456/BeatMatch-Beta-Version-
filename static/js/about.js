@@ -39,14 +39,9 @@ setInterval(() => {
   score += Math.floor(Math.random() * 80 + 20) * (Math.random() > 0.15 ? 1 : 0);
   const scoreEl = document.getElementById("previewScore");
 
-  setInterval(() => {
-    score +=
-      Math.floor(Math.random() * 80 + 20) * (Math.random() > 0.15 ? 1 : 0);
-
-    if (scoreEl) {
-      scoreEl.textContent = score.toLocaleString();
-    }
-  }, 2200);
+  if (scoreEl) {
+    scoreEl.textContent = score.toLocaleString();
+  }
 }, 2200);
 
 async function loadLeaderboard() {

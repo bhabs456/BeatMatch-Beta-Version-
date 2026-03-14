@@ -17,52 +17,41 @@ app.secret_key = os.getenv("SECRET_KEY", "beatmatch_super_secret")
 app.config["SESSION_COOKIE_SECURE"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
+from mysql.connector import pooling
+
 # ==============================
 # DATABASE CONNECTION POOL
 # ==============================
 
+dbconfig = {
+    "host": os.getenv("MYSQLHOST", "localhost"),
+    "user": os.getenv("MYSQLUSER", "root"),
+    "password": os.getenv("MYSQLPASSWORD", "12345"),
+    "database": os.getenv("MYSQLDATABASE", "beatmatch"),
+    "port": int(os.getenv("MYSQLPORT", 3306))
+}
 
-import mysql.connector
+# Create a connection pool with 5 connections
+connection_pool = pooling.MySQLConnectionPool(
+    pool_name="beatmatch_pool",
+    pool_size=5,
+    pool_reset_session=True,
+    **dbconfig
+)
 
-# def get_db_connection():
-#     connection = mysql.connector.connect(
-#         host=os.getenv("MYSQLHOST"),
-#         user=os.getenv("MYSQLUSER"),
-#         password=os.getenv("MYSQLPASSWORD"),
-#         database=os.getenv("MYSQLDATABASE"),
-#         port=int(os.getenv("MYSQLPORT"), 3306)
-#     )
-#     return connection
-
-# def get_cursor(dictionary=False):
-#     db = get_db_connection()
-#     cursor = db.cursor(dictionary=dictionary)
-#     return cursor, db
-
-
-# @app.route("/db-test")
-# def db_test():
-#     cursor, db = get_cursor(True)
-#     cursor.execute("SHOW TABLES;")
-#     tables = cursor.fetchall()
-#     return str(tables)
-
-# Database connection
 def get_db_connection():
-    connection = mysql.connector.connect(
-        host=os.getenv("MYSQLHOST", "localhost"),
-        user=os.getenv("MYSQLUSER", "root"),
-        password=os.getenv("MYSQLPASSWORD", "12345"),
-        database=os.getenv("MYSQLDATABASE", "beatmatch"),
-        port=int(os.getenv("MYSQLPORT", 3306))
-    )
-    return connection
-
+    try:
+        return connection_pool.get_connection()
+    except Exception as e:
+        print(f"Error getting connection from pool: {e}")
+        return None
 
 def get_cursor(dictionary=False):
     db = get_db_connection()
-    cursor = db.cursor(dictionary=dictionary)
-    return cursor, db
+    if db:
+        cursor = db.cursor(dictionary=dictionary)
+        return cursor, db
+    return None, None
 
 
 # ==============================
