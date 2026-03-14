@@ -47,14 +47,12 @@ import mysql.connector
 #     tables = cursor.fetchall()
 #     return str(tables)
 
-app = Flask(__name__)
-
 # Database connection
 def get_db_connection():
     connection = mysql.connector.connect(
         host=os.getenv("MYSQLHOST", "localhost"),
         user=os.getenv("MYSQLUSER", "root"),
-        password=os.getenv("MYSQLPASSWORD", ""),
+        password=os.getenv("MYSQLPASSWORD", "12345"),
         database=os.getenv("MYSQLDATABASE", "beatmatch"),
         port=int(os.getenv("MYSQLPORT", 3306))
     )
