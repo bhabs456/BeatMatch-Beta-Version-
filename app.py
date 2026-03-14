@@ -545,5 +545,31 @@ def get_achievements():
 # RUN
 # ==============================
 
-if __name__ == "__main__":
+@app.route("/debug-db")
+def debug_db():
+    import traceback
+    try:
+        import mysql.connector
+        conn = mysql.connector.connect(
+            host=os.getenv("MYSQLHOST", "localhost"),
+            user=os.getenv("MYSQLUSER", "root"),
+            password=os.getenv("MYSQLPASSWORD", ""),
+            database=os.getenv("MYSQLDATABASE", "beatmatch"),
+            port=int(os.getenv("MYSQLPORT", 3306))
+        )
+        cursor = conn.cursor()
+        cursor.execute("SELECT 1")
+        conn.close()
+        return jsonify({"status": "success", "host": os.getenv("MYSQLHOST")})
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "error_msg": str(e),
+            "host_seen": os.getenv("MYSQLHOST"),
+            "port_seen": os.getenv("MYSQLPORT")
+        })
+
+if __name__ == '__main__':
+    # Initialize DB (Local mode)
+    # init_database()
     app.run(debug=True)
