@@ -95,8 +95,6 @@ async function loginUser() {
     }
 
     closeModal();
-    // Redirect user to the game upon successful login
-    window.location.href = "/game";
   } else {
     if (loginError) loginError.textContent = data.error || "Login failed";
   }
@@ -213,6 +211,23 @@ if (ddLogout) {
   ddLogout.addEventListener("click", logoutUser);
 }
 
+const switchToSignup = document.getElementById("switchToSignup");
+if (switchToSignup) {
+  switchToSignup.addEventListener("click", () => switchTab("signup"));
+}
+
+const switchToLogin = document.getElementById("switchToLogin");
+if (switchToLogin) {
+  switchToLogin.addEventListener("click", () => switchTab("login"));
+}
+
+const guestPlay = document.getElementById("guestPlay");
+if (guestPlay) {
+  guestPlay.addEventListener("click", () => {
+    window.location.href = "/game";
+  });
+}
+
 /* ---------- AUTO LOGIN ---------- */
 
 window.addEventListener("DOMContentLoaded", async () => {
@@ -235,6 +250,7 @@ if (startGameBtn) {
     if (user) {
       window.location.href = "/game";
     } else {
+      // Show modal, but let them know they can play as guest
       openModal("login");
     }
   });

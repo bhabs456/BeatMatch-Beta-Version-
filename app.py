@@ -20,36 +20,23 @@ app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 from mysql.connector import pooling
 
 # ==============================
-# DATABASE CONNECTION POOL
+# DATABASE CONNECTION
 # ==============================
 
-connection_pool = None
+import mysql.connector
 
 def get_db_connection():
-    global connection_pool
-    if connection_pool is None:
-        try:
-            dbconfig = {
-                "host": os.getenv("MYSQLHOST", "localhost"),
-                "user": os.getenv("MYSQLUSER", "root"),
-                "password": os.getenv("MYSQLPASSWORD", "12345"),
-                "database": os.getenv("MYSQLDATABASE", "beatmatch"),
-                "port": int(os.getenv("MYSQLPORT", 3306))
-            }
-            # Aiven requires SSL, so we add ssl_ca or ssl_disabled=False
-            connection_pool = pooling.MySQLConnectionPool(
-                pool_name="beatmatch_pool",
-                pool_size=5,
-                pool_reset_session=True,
-                **dbconfig
-            )
-        except Exception as e:
-            print(f"Error initializing connection pool: {e}")
-            return None
     try:
-        return connection_pool.get_connection()
+        dbconfig = {
+            "host": os.getenv("MYSQLHOST", "localhost"),
+            "user": os.getenv("MYSQLUSER", "root"),
+            "password": os.getenv("MYSQLPASSWORD", "12345"),
+            "database": os.getenv("MYSQLDATABASE", "beatmatch"),
+            "port": int(os.getenv("MYSQLPORT", 3306))
+        }
+        return mysql.connector.connect(**dbconfig)
     except Exception as e:
-        print(f"Error getting connection from pool: {e}")
+        print(f"Error connecting to DB: {e}")
         return None
 
 def get_cursor(dictionary=False):
@@ -86,7 +73,6 @@ def home():
 
 
 @app.route("/game")
-@login_required
 def game():
     return render_template("index.html")
 
